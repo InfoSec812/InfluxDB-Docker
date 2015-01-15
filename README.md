@@ -28,8 +28,14 @@ Run The Docker Container
 Loading Stats
 -------------
 
-The container integrates *statsd* with the InfluxDB plugin, so you can upload stats to InfluxDB as follows:
+The container integrates [statsd](https://github.com/etsy/statsd/) with the [InfluxDB plugin](https://github.com/bernd/statsd-influxdb-backend), so you can upload stats to InfluxDB as follows:
 
 ```bash
 echo "<series name>:<value>|c" | nc -u -w0 127.0.0.1 8125
+```
+
+You can send multiple values in a single connection by separating them with a newline character as shown below:
+
+```bash
+echo "<series name1>:<value1>|c\n<series name2>:<value2>|c\n<series name3>:<value3>|c" | nc -u -w0 127.0.0.1 8125
 ```
