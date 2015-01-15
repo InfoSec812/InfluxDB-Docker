@@ -28,7 +28,7 @@ Run The Docker Container
 Loading Stats
 -------------
 
-The container integrates *statsd* with the InfluxDB plugin, so you can upload stats to InfluxDB as follows:
+The container integrates [statsd](https://github.com/etsy/statsd/) with the [InfluxDB plugin](https://github.com/bernd/statsd-influxdb-backend), so you can upload stats to InfluxDB as follows:
 
 ```bash
 echo "<series name>:<value>|c" | nc -u -w0 127.0.0.1 8125
