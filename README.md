@@ -33,3 +33,9 @@ The container integrates *statsd* with the InfluxDB plugin, so you can upload st
 ```bash
 echo "<series name>:<value>|c" | nc -u -w0 127.0.0.1 8125
 ```
+
+You can send multiple values in a single connection by separating them with a newline character as shown below:
+
+```bash
+echo "<series name1>:<value1>|c\n<series name2>:<value2>|c\n<series name3>:<value3>|c" | nc -u -w0 127.0.0.1 8125
+```
