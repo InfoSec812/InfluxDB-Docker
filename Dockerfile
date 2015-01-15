@@ -10,7 +10,6 @@ RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://s3.amazonaws.com/influxdb/
 
 RUN apt-get update
 ADD docker/config.toml /config/config.toml
-RUN sed -i 's@/opt/influxdb/shared/log.txt@/data/influxdb.log@g' /config/config.toml
 ADD docker/run.sh /run.sh
 RUN chmod +x /*.sh
 
