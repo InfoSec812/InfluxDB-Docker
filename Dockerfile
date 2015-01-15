@@ -10,6 +10,7 @@ RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://s3.amazonaws.com/influxdb/
 
 RUN apt-get update
 ADD docker/config.toml /config/config.toml
+RUN sed -i 's@/opt/influxdb/shared/log.txt@/data/influxdb.log@g' /config/config.toml
 ADD docker/run.sh /run.sh
 RUN chmod +x /*.sh
 
@@ -20,6 +21,7 @@ ENV SSL_CERT **None**
 RUN apt-get install -y nodejs npm supervisor
 RUN apt-get clean
 RUN npm install -g statsd statsd-influxdb-backend
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 ADD docker/statsd.conf /config/statsd.conf
 ADD docker/supervisord.d/influxdb.conf /etc/supervisor/conf.d/influxdb.conf
 ADD docker/supervisord.d/statsd.conf /etc/supervisor/conf.d/statsd.conf
