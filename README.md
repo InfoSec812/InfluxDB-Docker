@@ -23,7 +23,7 @@ Run The Docker Container
 
 * Create a data directory where the persistent data will be stored <datadir>
 * Run the container
-  * ```docker run -d -v <datadir>:/data -p 8125:8125 -p 8083:8083 -p 8084:8084 -p 8086:8086 InfluxDB```
+  * ```docker run -d -v <datadir>:/data -p 8125:8125/udp -p 8083:8083 -p 8084:8084 -p 8086:8086 InfluxDB```
 
 Loading Stats
 -------------
