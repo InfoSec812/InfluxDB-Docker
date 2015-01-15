@@ -8,13 +8,21 @@ RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://s3.amazonaws.com/influxdb/
   rm /tmp/influxdb_latest_amd64.deb && \
   rm -rf /var/lib/apt/lists/*
 
-ADD config.toml /config/config.toml
-ADD run.sh /run.sh
+RUN apt-get update
+ADD docker/config.toml /config/config.toml
+ADD docker/run.sh /run.sh
 RUN chmod +x /*.sh
 
 ENV PRE_CREATE_DB **None**
 ENV SSL_SUPPORT **False**
 ENV SSL_CERT **None**
+
+RUN apt-get install -y nodejs npm supervisor
+RUN apt-get clean
+RUN npm install -g statsd statsd-influxdb-backend
+ADD docker/statsd.conf /config/statsd.conf
+ADD docker/supervisord.d/influxdb.conf /etc/supervisor/conf.d/influxdb.conf
+ADD docker/supervisord.d/statsd.conf /etc/supervisor/conf.d/statsd.conf
 
 # Admin server
 EXPOSE 8083
@@ -25,6 +33,10 @@ EXPOSE 8086
 # HTTPS API
 EXPOSE 8084
 
+# StatsD
+EXPOSE 8125
+EXPOSE 8126
+
 # Raft port (for clustering, don't expose publicly!)
 #EXPOSE 8090
 
@@ -33,4 +45,4 @@ EXPOSE 8084
 
 VOLUME ["/data"]
 
-CMD ["/run.sh"]
+CMD /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf

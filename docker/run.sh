@@ -98,5 +98,4 @@ fi
 
 echo "=> Starting InfluxDB ..."
 
-/etc/init.d/nginx start
 exec /usr/bin/influxdb -config=${CONFIG_FILE}
