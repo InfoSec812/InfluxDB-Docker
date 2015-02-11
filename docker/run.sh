@@ -6,6 +6,10 @@ CONFIG_FILE="/config/config.toml"
 #Dynamically change the value of 'max-open-shards' to what 'ulimit -n' returns
 sed -i "s/^max-open-shards.*/max-open-shards = $(ulimit -n)/" ${CONFIG_FILE}
 
+if ! [ -n ${API_URL} ]; then
+    API_URL="http://${HOSTNAME}:8083"
+fi
+
 #Configure InfluxDB Cluster
 if [ -n "${FORCE_HOSTNAME}" ]; then
     if [ "${FORCE_HOSTNAME}" == "auto" ]; then
@@ -95,6 +99,8 @@ if [ -n "${PRE_CREATE_DB}" ]; then
 else
     echo "=> No database need to be pre-created"
 fi
+
+mkdir -p /data/admin
 
 echo "=> Starting InfluxDB ..."
 
